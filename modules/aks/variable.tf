@@ -79,16 +79,16 @@ variable "private_cluster_public_fqdn_enabled" {
   description = "Specifies whether a Public FQDN for this Private Cluster should be added. Defaults to false."
 }
 
-#variable "key_vault_key_id" {
-#  type = string
-#  description = "Identifier of Azure Key Vault key"
-#}
+variable "key_vault_key_id" {
+  type = string
+  description = "Identifier of Azure Key Vault key"
+}
 
-#variable "key_vault_network_access" { 
-#  type = bool
-#  default = "Public"
-#  description = "Network access of the key vault Network access of key vault. The possible values are Public and Private"
-#}
+variable "key_vault_network_access" { 
+  type = bool
+  default = "Public"
+  description = "Network access of the key vault Network access of key vault. The possible values are Public and Private"
+}
 
 variable "secret_rotation_enabled" {
   type = bool
