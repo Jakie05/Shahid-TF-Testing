@@ -113,7 +113,7 @@ resource "azurerm_kubernetes_cluster" "azure_kubernetes_cluster" {
   private_dns_zone_id                 = azurerm_private_dns_zone.example.id
   sku_tier                            = var.sku_tier
   automatic_upgrade_channel           = var.automatic_upgrade_channel
-  disk_encryption_set_id              = var.disk_encryption_set_id
+  disk_encryption_set_id              = azurerm_disk_encryption_set.example_des.id
   azure_policy_enabled                = var.azure_policy_enabled
   node_os_upgrade_channel             = var.node_os_upgrade_channel
   support_plan                        = var.support_plan
