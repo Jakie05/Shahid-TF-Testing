@@ -1,3 +1,6 @@
+variable "tenant_id" {
+}
+
 variable "name" {
   type = string
   description = " (Required) The name of the Managed Kubernetes Cluster to create. Changing this forces a new resource to be created."
