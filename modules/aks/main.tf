@@ -79,7 +79,7 @@ resource "azurerm_role_assignment" "private_dns_zone_contributor" {
 }
 
 resource "azurerm_container_registry" "container_registry" {
-  name                = "container-registry-eastus"
+  name                = "containerRegistryEastUS"
   resource_group_name = azurerm_resource_group.resource_group.name
   location            = azurerm_resource_group.resource_group.location
   sku                 = "Premium"
