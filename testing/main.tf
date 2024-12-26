@@ -35,7 +35,7 @@ module "terraform-azurerm-kubernetesservices" {
   httpproxy                  = "http://10.227.3.206:80/"
   httpsproxy                 = "http://10.227.3.206:80/"
   no_proxy                   = ["http://10.227.3.206:80/"]
-  tags                       = local.tags
+  tags                       = {env = "YUAT"}
   
   default_node_pool = {
       name             = "ibcitfenp01"
