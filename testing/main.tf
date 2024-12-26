@@ -15,6 +15,7 @@ module "terraform-azurerm-kubernetesservices" {
   private_cluster_public_fqdn_enabled = false
   secret_rotation_enabled        = true 
   secret_rotation_interval       = "2m"
+  tenant_id                      = var.tenant_id
 
   storage_profile = {
     blob_driver_enabled = true
@@ -27,11 +28,10 @@ module "terraform-azurerm-kubernetesservices" {
   dns_service_ip           = "10.152.0.10"
   outbound_type            = "userDefinedRouting"
   service_cidr             = "10.152.0.0/17"
-  pod_cidrs                = 
-  network_plugin_mode      = 
+  pod_cidrs                = ["10.0.2.101/30"]
+  network_plugin_mode      = "overlay"
 
-  azure_rbac_enabled       = true
-  identity_type              = "UserAssigned"        
+  azure_rbac_enabled       = true       
   httpproxy                  = "http://10.227.3.206:80/"
   httpsproxy                 = "http://10.227.3.206:80/"
   no_proxy                   = ["http://10.227.3.206:80/"]
@@ -41,7 +41,6 @@ module "terraform-azurerm-kubernetesservices" {
       name             = "ibcitfenp01"
       node_count       = 1
       vm_size          = "Standard_F4s_v2"
-      vnet_subnet_id   = "/subscriptions/ac6361f8-4743-4781-946b-fe85b704d358/resourceGroups/IBCI-UAT-TFE-RG01/providers/Microsoft.Network/virtualNetworks/IBCI-UAT-TFE-VNET/subnets/IBCI-UAT-TFE-APP_AKS"
       os_disk_size_gb  = 128
       max_pods         = 30
       only_critical_addons_enabled = true
