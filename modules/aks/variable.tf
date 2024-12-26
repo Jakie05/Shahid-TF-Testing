@@ -53,11 +53,6 @@ variable "automatic_upgrade_channel" {
   description = "The upgrade channel for this Kubernetes Cluster. Possible values are patch, rapid, node-image and stable. Omitting this field sets this value to none."
 }
 
-variable "disk_encryption_set_id" {
-  type = string
-  description = "The ID of the Disk Encryption Set which should be used for the Nodes and Volumes. Changing this forces a new resource to be created."
-}
-
 variable "azure_policy_enabled" { 
   type = bool
   default = true
