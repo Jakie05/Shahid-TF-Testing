@@ -149,7 +149,7 @@ resource "azurerm_kubernetes_cluster" "azure_kubernetes_cluster" {
   default_node_pool {
     name                         = lookup(var.default_node_pool, "name", null)
     vm_size                      = lookup(var.default_node_pool, "vm_size", null)
-    vnet_subnet_id	         = lookup(var.default_node_pool, "vnet_subnet_id", null)
+    vnet_subnet_id	         = azurerm_subnet.example_subnet.id
     auto_scaling_enabled         = lookup(var.default_node_pool, "auto_scaling_enabled", false)
     os_disk_size_gb              = lookup(var.default_node_pool, "os_disk_size_gb", null)
     max_pods	                 = lookup(var.default_node_pool, "max_pods", null)
