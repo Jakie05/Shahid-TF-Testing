@@ -3,6 +3,69 @@ resource "azurerm_resource_group" "azure_resource_group" {
   location = "US East 1"
 }
 
+resource "azurerm_network_security_group" "example" {
+  name                = "example-security-group"
+  location            =  azurerm_resource_group.azure_resource_group.location
+  resource_group_name = azurerm_resource_group.azure_resource_group.name
+}
+
+resource "azurerm_virtual_network" "example" {
+  name                = "example-network"
+  location            =  azurerm_resource_group.azure_resource_group.location
+  resource_group_name = azurerm_resource_group.azure_resource_group.name
+  address_space       = ["10.0.0.0/16"]
+  dns_servers         = ["10.0.0.4", "10.0.0.5"]
+
+  tags = {
+    environment = "Production"
+  }
+}
+
+resource "azurerm_subnet" "example_subnet" {
+  name             = "subnet1"
+  resource_group_name  = azurerm_resource_group.azure_resource_group.name
+  virtual_network_name = azurerm_virtual_network.example.name
+  address_prefixes     = ["10.0.2.0/24"]
+}
+
+resource "azurerm_disk_encryption_set" "example_des" {
+  name                = "exampleDESet"
+  resource_group_name = azurerm_resource_group.azure_resource_group.name
+  location            =  azurerm_resource_group.azure_resource_group.location
+  key_vault_key_id    = azurerm_key_vault_key.generated.id
+
+  identity {
+    type = "SystemAssigned"
+  }
+}
+
+
+resource "azurerm_key_vault" "example" {
+  name                       = "examplekeyvault"
+  location            =  azurerm_resource_group.azure_resource_group.location
+  resource_group_name = azurerm_resource_group.azure_resource_group.name
+  tenant_id                  = var.tenant_id
+  sku_name                   = "premium"
+  soft_delete_retention_days = 7
+
+}
+
+resource "azurerm_key_vault_key" "generated" {
+  name         = "generated-certificate"
+  key_vault_id = azurerm_key_vault.example.id
+  key_type     = "RSA"
+  key_size     = 2048
+
+  key_opts = [
+    "decrypt",
+    "encrypt",
+    "sign",
+    "unwrapKey",
+    "verify",
+    "wrapKey",
+  ]
+}
+
 resource "azurerm_private_dns_zone" "example" {
   name                = "privatelink.eastus2.azmk8s.io"
   resource_group_name = azurerm_resource_group.azure_resource_group.name
@@ -56,17 +119,18 @@ resource "azurerm_kubernetes_cluster" "azure_kubernetes_cluster" {
   support_plan                        = var.support_plan
   private_cluster_public_fqdn_enabled = var.private_cluster_public_fqdn_enabled
 
-#  key_management_service {
-#    key_vault_key_id         = var.key_vault_key_id
-#    key_vault_network_access = var.key_vault_network_access
-#  }
+  key_management_service {
+    key_vault_key_id         = azurerm_key_vault_key.generated.id
+    key_vault_network_access = var.key_vault_network_access
+  }
 
   storage_profile {
     blob_driver_enabled = lookup(var.storage_profile, "blob_driver_enabled", true)
     disk_driver_enabled = lookup(var.storage_profile, "disk_driver_enabled", true)
     file_driver_enabled = lookup(var.storage_profile, "file_driver_enabled", true)
   }
-	
+
+
   key_vault_secrets_provider {
     secret_rotation_enabled  = var.secret_rotation_enabled
     secret_rotation_interval = var.secret_rotation_interval
