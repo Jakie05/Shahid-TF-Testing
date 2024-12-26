@@ -97,8 +97,8 @@ resource "azurerm_container_registry" "azure_container_registry" {
 }
 
 resource "azurerm_role_assignment" "role_assignment" {
-  principalid = azurerm_kubernetes_cluster.azure_kubernetes_cluster.kubelet_identity_obj_id
-  role        = "AcrPull"
+  principal_id = azurerm_kubernetes_cluster.azure_kubernetes_cluster.kubelet_identity_obj_id
+  role_definition_name        = "AcrPull"
   scope       = azurerm_container_registry.azure_container_registry.id
 }
 
