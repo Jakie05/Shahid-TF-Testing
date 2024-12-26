@@ -3,16 +3,6 @@ variable "name" {
   description = " (Required) The name of the Managed Kubernetes Cluster to create. Changing this forces a new resource to be created."
 }
 
-variable "resource_group_name" {
-  type = string
-  description = "(Required) Specifies the Resource Group where the Managed Kubernetes Cluster should exist. Changing this forces a new resource to be created."
-}
-
-variable "location" {
-  type = string
-  description = "(Required) The location where the Managed Kubernetes Cluster should be created. Changing this forces a new resource to be created."
-}
-
 variable "dns_prefix" {
   type = string
   description = "(Optional) DNS prefix specified when creating the managed cluster. Possible values must begin and end with a letter or number, contain only letters, numbers, and hyphens and be between 1 and 54 characters in length. Changing this forces a new resource to be created."
@@ -69,11 +59,6 @@ variable "support_plan" {
 variable "private_cluster_public_fqdn_enabled" {
   default = false
   description = "Specifies whether a Public FQDN for this Private Cluster should be added. Defaults to false."
-}
-
-variable "key_vault_key_id" {
-  type = string
-  description = "Identifier of Azure Key Vault key"
 }
 
 variable "key_vault_network_access" { 
