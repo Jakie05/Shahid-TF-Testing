@@ -77,7 +77,7 @@ variable "key_vault_key_id" {
 }
 
 variable "key_vault_network_access" { 
-  type = bool
+  type = string
   default = "Public"
   description = "Network access of the key vault Network access of key vault. The possible values are Public and Private"
 }
