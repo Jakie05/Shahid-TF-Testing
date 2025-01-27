@@ -3,6 +3,7 @@ resource "azurerm_resource_group" "resource_group" {
   location = "US East 1"
 }
 
+
 resource "azurerm_network_security_group" "network_security_group" {
   name                = "network-security-group-eastus"
   location            = azurerm_resource_group.resource_group.location
